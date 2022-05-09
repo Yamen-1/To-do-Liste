@@ -1,12 +1,13 @@
 import '../css/App.scss';
-import {useState} from "react";
-
+import Header from './Header';
+import ToDoListe from './ToDoListe';
 
 function App() {
-  // state mit aufgaben
   return (
-    <div className="App" id={"App"}>
-      <h1>Meine To dos</h1>
+    <div className="App" id="App">
+      <Header/>
+      {/* Hier Liste von Todo */}
+      <ToDoListe/>
     </div>
   );
 }
