@@ -3,6 +3,7 @@ const Aufgabe = (props) => {
   return (
   <li 
     className={`Aufgabe ${props.farbe??  'wennFarbeFehlt' }`} 
+    style={{ backgroundColor:  props.done ? ('gray') : ('red')}}
     id={props.number} 
     onClick={() => {
       // funktion rufen von props, mit id (number) als parameter

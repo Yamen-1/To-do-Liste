@@ -4,11 +4,11 @@ import Aufgabe from './Aufgabe';
 const ToDoListe = () => {
 
   const [aufgaben, setAufgaben] = useState([
-    { text: "Einkaufen gehen", done: false, id: 1, farbe: 'rot' },
-    { text: "Eis essen", done: false, id: 2, farbe: 'blau' },
-    { text: "Spielen", done: false, id: 3, farbe: 'gelb' },
-    { text: "Schlafen", done: false, id: 4, farbe: 'rot' },
-    { text: "Programmieren", done: true, id: 5, farbe: 'blau' },
+    { text: "Einkaufen gehen", done: false, id: 1, farbe: 'schwarz' },
+    { text: "Eis essen", done: false, id: 2, farbe: 'schwarz' },
+    { text: "Spielen", done: false, id: 3, farbe:  'schwarz'  },
+    { text: "Schlafen", done: false, id: 4, farbe:  'schwarz'  },
+    { text: "Programmieren", done: true, id: 5, farbe:  'schwarz'  },
     { text: "Aufstehen", done: false, id: 6 },
   ])
   // Funktion um done von false auf true zu ändern: 
@@ -29,33 +29,42 @@ const ToDoListe = () => {
     setAufgaben(geänderteKopie)
   }
 
+  // filter funktionen: 
+
+  let nichtErledigteAufgaben = aufgaben.filter((aufgabe) => !aufgabe.done)
+  let erledigteAufgaben = aufgaben.filter((aufgabe) => aufgabe.done === true)
+
   return (
     <div className='ToDoListe'>
       <h2>Das sind meine Aufgaben:</h2>
       <ul>
         {/* Schritt 2: nur nicht erledigte aufgaben anzeigen */}
-        {aufgaben.filter((aufgabe) => !aufgabe.done).map((aufgabe) => {
+        {nichtErledigteAufgaben.map((aufgabe) => {
           return <Aufgabe
             text={aufgabe.text}
             key={aufgabe.id}
             number={aufgabe.id}
             // Schritt 3: onClick um als erledigt zu markieren
             aufgabeAlsErledigtMarkieren={aufgabeAlsErledigtMarkieren}
-            farbe={aufgabe.farbe} />
+            farbe={aufgabe.farbe}
+            done={aufgabe.done}
+             />
         })}
       </ul>
       <h2>Das habe ich schon erledigt:</h2>
       {/* Schritt 1: nur erledigte aufgaben anzeigen; Ausfilter wo done == true */}
       {/*Geht auch: { aufgaben.filter((aufgabe) => aufgabe.done )} */}
       {/* [{ text: "Programmieren", done: true, id: 5, farbe: 'blau' }] */}
-      {aufgaben.filter((aufgabe) => aufgabe.done === true).map(aufgabe => {
+      {erledigteAufgaben.map(aufgabe => {
         return <Aufgabe
           text={aufgabe.text}
           key={aufgabe.id}
           number={aufgabe.id}
           // Schritt 3: onClick um als erledigt zu markieren
           aufgabeAlsErledigtMarkieren={aufgabeAlsErledigtMarkieren}
-          farbe={aufgabe.farbe} />
+          farbe={aufgabe.farbe}
+          done={aufgabe.done}
+           />
       })}
 
 
