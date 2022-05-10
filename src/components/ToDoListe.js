@@ -16,16 +16,35 @@ const ToDoListe = () => {
     <div className='ToDoListe'>
       <h2>Das sind meine Aufgaben:</h2>
       <ul>
-        {/* So viele Komponenten wie aufgaben */}
-        {aufgaben.map((aufgabe) => {
+        {/* Schritt 2: nur nicht erledigte aufgaben anzeigen */}
+        { aufgaben.filter((aufgabe) => !aufgabe.done).map((aufgabe) => {
           return <Aufgabe 
           text={aufgabe.text} 
           key={aufgabe.id} 
           number={aufgabe.id} 
+          // Schritt 3: onClick um als erledigt zu markieren
           farbe={aufgabe.farbe} />
         })}
       </ul>
       <h2>Das habe ich schon erledigt:</h2>
+      {/* Schritt 1: nur erledigte aufgaben anzeigen; Ausfilter wo done == true */}
+      {/*Geht auch: { aufgaben.filter((aufgabe) => aufgabe.done )} */}
+      {/* [{ text: "Programmieren", done: true, id: 5, farbe: 'blau' }] */}
+       { aufgaben.filter((aufgabe) => aufgabe.done === true ).map(aufgabe => {
+         return <Aufgabe 
+         text={aufgabe.text} 
+         key={aufgabe.id} 
+         number={aufgabe.id} 
+         // Schritt 3: onClick um als erledigt zu markieren
+         farbe={aufgabe.farbe} />
+       }) }
+   
+
+
+
+
+
+      {/* Schritt 4: aufräumen mit Container? */}
     </div>
   )
 }
