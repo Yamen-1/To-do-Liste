@@ -3,6 +3,8 @@ import Aufgabe from './Aufgabe';
 
 const ToDoListe = () => {
 
+  const [newAufgabe, setNewAufgabe] = useState("")
+
   const [aufgaben, setAufgaben] = useState([
     { text: "Einkaufen gehen", done: false, id: 1, farbe: 'schwarz' },
     { text: "Eis essen", done: false, id: 2, farbe: 'schwarz' },
@@ -11,31 +13,82 @@ const ToDoListe = () => {
     { text: "Programmieren", done: true, id: 5, farbe:  'schwarz'  },
     { text: "Aufstehen", done: false, id: 6 },
   ])
-  // Funktion um done von false auf true zu ändern: 
-  // braucht das Id von Aufgabe
+
+  const createNewTask = () => {
+    let kopie = [...aufgaben]
+    kopie.push({ text: newAufgabe, done: false, id: Date.now(), farbe: 'schwarz' })
+    setAufgaben(kopie)
+  }
+
   const aufgabeAlsErledigtMarkieren = (id) => {
-    // kopie von aufgaben, hier ändern wir
     let geänderteKopie = aufgaben.map(aufgabe => {
-      // // das element auf dem wir geklickt haben finden!
-      if(aufgabe.id === id){
-         // done von false zu true
-         aufgabe.done = true
-        return aufgabe
-      } else {
-        return aufgabe
-      }
+        if(aufgabe.id === id){
+            // wenn done dann auf false setzen und umgekehrt
+            // lange variante
+            if(aufgabe.done === false){
+              aufgabe.done = true
+            }else{
+              aufgabe.done = false
+            }
+            // kurze variante
+            // aufgabe.done = !aufgabe.done
+          return aufgabe
+        } else {
+          return aufgabe
+        }
     })
     // setAufgaben, um die neue Array in state zu speichern:
     setAufgaben(geänderteKopie)
   }
 
+
+  const removeAufgabe = (id) => {
+    let geänderteKopie = aufgaben.filter((item) => item.id !== id);
+    setAufgaben(geänderteKopie);
+  }
+
+  const deleteAll = () => {
+    setAufgaben([])
+  }
+
+  const alleErledigen = () => {
+    let kopie = aufgaben.map(aufgabe => {
+      aufgabe.done = true
+      return aufgabe
+    })
+    setAufgaben(kopie)
+  }
+
+  const alleZurueck = () => {
+    let kopie = aufgaben.map(aufgabe => {
+      aufgabe.done = false
+      return aufgabe
+    })
+    setAufgaben(kopie)
+  }
+
+  const editAufgabe = (id, newValue) => {
+    let kopie = aufgaben.map(aufgabe => {
+      if(aufgabe.id === id){
+        aufgabe.text = newValue
+      }
+      return aufgabe
+    })
+    setAufgaben(kopie)
+  }
+
   // filter funktionen: 
 
-  let nichtErledigteAufgaben = aufgaben.filter((aufgabe) => !aufgabe.done)
+  let nichtErledigteAufgaben = aufgaben.filter((aufgabe) => aufgabe.done === false)
   let erledigteAufgaben = aufgaben.filter((aufgabe) => aufgabe.done === true)
 
   return (
     <div className='ToDoListe'>
+      <div>
+        <button onClick={deleteAll}>Alle Löschen</button>
+        <button onClick={alleErledigen}>Alle Erledigen</button>
+        <button onClick={alleZurueck}>Alle Zurücksetzen</button>
+      </div>
       <h2>Das sind meine Aufgaben:</h2>
       <ul>
         {/* Schritt 2: nur nicht erledigte aufgaben anzeigen */}
@@ -48,13 +101,13 @@ const ToDoListe = () => {
             aufgabeAlsErledigtMarkieren={aufgabeAlsErledigtMarkieren}
             farbe={aufgabe.farbe}
             done={aufgabe.done}
+            removeAufgabe = {removeAufgabe}
+            editAufgabe = {editAufgabe}
              />
         })}
       </ul>
       <h2>Das habe ich schon erledigt:</h2>
-      {/* Schritt 1: nur erledigte aufgaben anzeigen; Ausfilter wo done == true */}
-      {/*Geht auch: { aufgaben.filter((aufgabe) => aufgabe.done )} */}
-      {/* [{ text: "Programmieren", done: true, id: 5, farbe: 'blau' }] */}
+      <ul>
       {erledigteAufgaben.map(aufgabe => {
         return <Aufgabe
           text={aufgabe.text}
@@ -64,15 +117,22 @@ const ToDoListe = () => {
           aufgabeAlsErledigtMarkieren={aufgabeAlsErledigtMarkieren}
           farbe={aufgabe.farbe}
           done={aufgabe.done}
+          removeAufgabe = {removeAufgabe}
+          editAufgabe = {editAufgabe}
            />
       })}
+      </ul>
+
+
+      <input type="text" value={newAufgabe} name="newTask"
+             onChange={(event)=>{
+              setNewAufgabe(event.target.value)}
+             }/>
+
+      <button onClick={createNewTask}>Ok</button>
 
 
 
-
-
-
-      {/* Schritt 4: aufräumen mit Container? */}
     </div>
   )
 }

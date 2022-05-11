@@ -1,0 +1,41 @@
+.ToDoListe{
+  ul{
+    display: flex;
+    list-style-type: none;
+    flex-direction: column;
+    padding:0;
+    li{
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      padding: 3px;
+      margin-bottom: 10px;
+      align-items: center;
+      div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button{
+        margin: 0px 5px;
+      }
+    }
+  }
+}
+
+.svg-icon{
+  path: #ffffff;
+  fill: #ffffff;
+  transition: all .8s ease-in-out;
+  transform: translate(0px, 0px);
+  cursor: pointer;
+  .meinstrich{
+  fill: yellow;
+  path: yellow;
+  }
+  &:hover{
+    color: greenyellow;
+    transform: translate(100px, 0px);
+
+  }
+}
