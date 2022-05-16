@@ -76,7 +76,8 @@ const ToDoListe = () => {
             aufgabeDoneToggeln={aufgabeDoneToggeln}
             farbe={aufgabe.farbe}
             done={aufgabe.done}
-            removeAufgabe = {removeAufgabe}
+            // Nicht erledigt soll nicht gelöscht werden können
+            // removeAufgabe = {removeAufgabe}
             editAufgabe = {editAufgabe}
              />
         })}
@@ -99,9 +100,14 @@ const ToDoListe = () => {
 {/* Input in einer eigener Komponente */}
       <input type="text" value={newAufgabe} name="newTask"
              onChange={(event)=>{
-              setNewAufgabe(event.target.value)}
-             }/>
-      <button onClick={createNewTask}>Ok</button>
+              setNewAufgabe(event.target.value)
+             }}/>
+      {/* Input leeren nach Texteingabe. newAugabe leeren auf dem Button click */}
+
+      <button onClick={() => {
+        newAufgabe ? (createNewTask()) : (alert('Gib einen Text ein!'))
+        setNewAufgabe('')
+        }}>Ok</button>
     </div>
   )
 }
