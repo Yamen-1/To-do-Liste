@@ -15,24 +15,15 @@ const ToDoListe = () => {
   ])
 
   const createNewTask = () => {
-    let kopie = [...aufgaben]
-    kopie.push({ text: newAufgabe, done: false, id: Date.now(), farbe: 'schwarz' })
-    setAufgaben(kopie)
+    // Schritt 2: kurzen mit spread
+    setAufgaben([ ...aufgaben, { text: newAufgabe, done: false, id: Date.now(), farbe: 'schwarz' } ])
   }
 
-  const aufgabeAlsErledigtMarkieren = (id) => {
+  const aufgabeDoneToggeln = (id) => {
+    console.log('als erledigt', id);
     let geänderteKopie = aufgaben.map(aufgabe => {
         if(aufgabe.id === id){
-            // wenn done dann auf false setzen und umgekehrt
-            // lange variante
-            if(aufgabe.done === false){
-              aufgabe.done = true
-            }else{
-              aufgabe.done = false
-            }
-            // kurze variante
-            // aufgabe.done = !aufgabe.done
-          return aufgabe
+          return {...aufgabe, done: !aufgabe.done}
         } else {
           return aufgabe
         }
@@ -52,18 +43,12 @@ const ToDoListe = () => {
   }
 
   const alleErledigen = () => {
-    let kopie = aufgaben.map(aufgabe => {
-      aufgabe.done = true
-      return aufgabe
-    })
+    let kopie = aufgaben.map(aufgabe => ({...aufgabe, done: true}))
     setAufgaben(kopie)
   }
 
   const alleZurueck = () => {
-    let kopie = aufgaben.map(aufgabe => {
-      aufgabe.done = false
-      return aufgabe
-    })
+    let kopie = aufgaben.map(aufgabe => ({ ...aufgabe, done: false}))
     setAufgaben(kopie)
   }
 
@@ -98,7 +83,7 @@ const ToDoListe = () => {
             key={aufgabe.id}
             number={aufgabe.id}
             // Schritt 3: onClick um als erledigt zu markieren
-            aufgabeAlsErledigtMarkieren={aufgabeAlsErledigtMarkieren}
+            aufgabeDoneToggeln={aufgabeDoneToggeln}
             farbe={aufgabe.farbe}
             done={aufgabe.done}
             removeAufgabe = {removeAufgabe}
@@ -114,7 +99,7 @@ const ToDoListe = () => {
           key={aufgabe.id}
           number={aufgabe.id}
           // Schritt 3: onClick um als erledigt zu markieren
-          aufgabeAlsErledigtMarkieren={aufgabeAlsErledigtMarkieren}
+          aufgabeDoneToggeln={aufgabeDoneToggeln}
           farbe={aufgabe.farbe}
           done={aufgabe.done}
           removeAufgabe = {removeAufgabe}
