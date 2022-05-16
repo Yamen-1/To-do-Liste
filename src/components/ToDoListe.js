@@ -4,7 +4,6 @@ import Aufgabe from './Aufgabe';
 const ToDoListe = () => {
 
   const [newAufgabe, setNewAufgabe] = useState("")
-
   const [aufgaben, setAufgaben] = useState([
     { text: "Einkaufen gehen", done: false, id: 1, farbe: 'schwarz' },
     { text: "Eis essen", done: false, id: 2, farbe: 'schwarz' },
@@ -24,10 +23,8 @@ const ToDoListe = () => {
     let geänderteKopie = aufgaben.map(aufgabe => {
       return  aufgabe.id === id ? ( {...aufgabe, done: !aufgabe.done} ) : ( aufgabe ) 
     }) 
-    // setAufgaben, um die neue Array in state zu speichern:
     setAufgaben(geänderteKopie)
   }
-
 
   const removeAufgabe = (id) => {
     let geänderteKopie = aufgaben.filter((item) => item.id !== id);
@@ -48,6 +45,7 @@ const ToDoListe = () => {
     setAufgaben(kopie)
   }
 
+  // Kann noch refactort werden:
   const editAufgabe = (id, newValue) => {
     let kopie = aufgaben.map(aufgabe => {
       if(aufgabe.id === id){
@@ -57,8 +55,6 @@ const ToDoListe = () => {
     })
     setAufgaben(kopie)
   }
-
-  // filter funktionen: 
 
   let nichtErledigteAufgaben = aufgaben.filter((aufgabe) => aufgabe.done === false)
   let erledigteAufgaben = aufgaben.filter((aufgabe) => aufgabe.done === true)
@@ -72,13 +68,11 @@ const ToDoListe = () => {
       </div>
       <h2>Das sind meine Aufgaben:</h2>
       <ul>
-        {/* Schritt 2: nur nicht erledigte aufgaben anzeigen */}
         {nichtErledigteAufgaben.map((aufgabe) => {
           return <Aufgabe
             text={aufgabe.text}
             key={aufgabe.id}
             number={aufgabe.id}
-            // Schritt 3: onClick um als erledigt zu markieren
             aufgabeDoneToggeln={aufgabeDoneToggeln}
             farbe={aufgabe.farbe}
             done={aufgabe.done}
@@ -94,7 +88,6 @@ const ToDoListe = () => {
           text={aufgabe.text}
           key={aufgabe.id}
           number={aufgabe.id}
-          // Schritt 3: onClick um als erledigt zu markieren
           aufgabeDoneToggeln={aufgabeDoneToggeln}
           farbe={aufgabe.farbe}
           done={aufgabe.done}
@@ -103,17 +96,12 @@ const ToDoListe = () => {
            />
       })}
       </ul>
-
-
+{/* Input in einer eigener Komponente */}
       <input type="text" value={newAufgabe} name="newTask"
              onChange={(event)=>{
               setNewAufgabe(event.target.value)}
              }/>
-
       <button onClick={createNewTask}>Ok</button>
-
-
-
     </div>
   )
 }
