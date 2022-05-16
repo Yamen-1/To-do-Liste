@@ -22,12 +22,8 @@ const ToDoListe = () => {
   const aufgabeDoneToggeln = (id) => {
     console.log('als erledigt', id);
     let geänderteKopie = aufgaben.map(aufgabe => {
-        if(aufgabe.id === id){
-          return {...aufgabe, done: !aufgabe.done}
-        } else {
-          return aufgabe
-        }
-    })
+      return  aufgabe.id === id ? ( {...aufgabe, done: !aufgabe.done} ) : ( aufgabe ) 
+    }) 
     // setAufgaben, um die neue Array in state zu speichern:
     setAufgaben(geänderteKopie)
   }
