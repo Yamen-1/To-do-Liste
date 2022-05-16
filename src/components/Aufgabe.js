@@ -1,8 +1,8 @@
 import './Aufgabe.css'
 import { useState } from 'react'
 
-// schritt 1: destrukturieren von Props: Eigenschaften von Objekt holen
-const Aufgabe = ({text, farbe, done, number, aufgabeAlsErledigtMarkieren, removeAufgabe, editAufgabe }) => {
+// schritt 1: destrukturieren von Props: Eigenschaften von Objekt holen mit Umbenennen
+const Aufgabe = ({text, farbe, done, number, aufgabeAlsErledigtMarkieren: doneAufgabe, removeAufgabe, editAufgabe }) => {
 
   const [edit, setEdit] = useState(false)
   const [currentVal, setCurrentVal] = useState(text)
@@ -24,7 +24,7 @@ const Aufgabe = ({text, farbe, done, number, aufgabeAlsErledigtMarkieren, remove
     }
     <div>
       <button onClick={() =>{
-        aufgabeAlsErledigtMarkieren(number)
+        doneAufgabe(number)
       }
       }>{(done === false)?"erledigen":"zurücksetzen"}</button>
       <button onClick={() => {
