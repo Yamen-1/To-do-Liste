@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Aufgabe from './Aufgabe';
 
 const ToDoListe = () => {
@@ -13,8 +13,30 @@ const ToDoListe = () => {
     { text: "Aufstehen", done: false, id: 6 },
   ])
 
+  //Neu useEffect Hook: schalte React.StrictMode in index.js aus, damit die Komponente einmal ausgeführt wird
+// Wenn die Komponeten geladen wurde
+  useEffect(()=> {
+    console.log('Komponente wurde geladen!');
+    // Daten aus dem LocalStorage holen 
+    let dataAlsJSON = localStorage.getItem('aufgabenLS')
+    let data = JSON.parse(dataAlsJSON)
+    // gib es daten? 
+    if (data) {    
+      // daten in state speichern
+      setAufgaben(data)
+    }
+   },[])
+
+  // Wenn sich etwas im State ändert: 
+  useEffect(()=> {
+    console.log('Etwas an aufgaben hat sich geändert')
+    // Daten in Local storage speichern
+    localStorage.setItem('aufgabenLS', JSON.stringify(aufgaben))
+  }, [aufgaben])
+
+  useEffect(()=> { console.log("new aufgabe hat sich geändert")}, [newAufgabe])
+
   const createNewTask = () => {
-    // Schritt 2: kurzen mit spread
     setAufgaben([ ...aufgaben, { text: newAufgabe, done: false, id: Date.now(), farbe: 'schwarz' } ])
   }
 
@@ -45,7 +67,6 @@ const ToDoListe = () => {
     setAufgaben(kopie)
   }
 
-  // Kann noch refactort werden:
   const editAufgabe = (id, newValue) => {
     let kopie = aufgaben.map(aufgabe => {
       if(aufgabe.id === id){
@@ -76,8 +97,6 @@ const ToDoListe = () => {
             aufgabeDoneToggeln={aufgabeDoneToggeln}
             farbe={aufgabe.farbe}
             done={aufgabe.done}
-            // Nicht erledigt soll nicht gelöscht werden können
-            // removeAufgabe = {removeAufgabe}
             editAufgabe = {editAufgabe}
              />
         })}
@@ -97,12 +116,10 @@ const ToDoListe = () => {
            />
       })}
       </ul>
-{/* Input in einer eigener Komponente */}
       <input type="text" value={newAufgabe} name="newTask"
              onChange={(event)=>{
               setNewAufgabe(event.target.value)
              }}/>
-      {/* Input leeren nach Texteingabe. newAugabe leeren auf dem Button click */}
 
       <button onClick={() => {
         newAufgabe ? (createNewTask()) : (alert('Gib einen Text ein!'))
