@@ -19,6 +19,9 @@ class ToDoListeClass extends React.Component {
         { text: "Aufstehen", done: false, id: 6 },
       ]
     }
+    // this von der funktion binden:
+    this.removeAufgabe = this.removeAufgabe.bind(this);
+    // this.neueFunktion = this.neueFunktion.bind(this)
   }
 
   // wird zu useEffect: beim Laden
@@ -42,8 +45,11 @@ class ToDoListeClass extends React.Component {
       console.log("new aufgabe hat sich geändert")
     }
   }
-
-
+// eigene funktionen: 
+  removeAufgabe = (id) => {
+    let geänderteKopieVonAufgaben = this.state.aufgaben.filter((item) => item.id !== id);
+    this.setState({...this.state, aufgaben: geänderteKopieVonAufgaben});
+  }
 
   render() {
     return (
