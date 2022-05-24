@@ -16,7 +16,6 @@ const ToDoListe = () => {
   //Neu useEffect Hook: schalte React.StrictMode in index.js aus, damit die Komponente einmal ausgeführt wird
 // Wenn die Komponeten geladen wurde
   useEffect(()=> {
-    console.log('Komponente wurde geladen!');
     // Daten aus dem LocalStorage holen 
     let dataAlsJSON = localStorage.getItem('aufgabenLS')
     let data = JSON.parse(dataAlsJSON)
@@ -29,19 +28,17 @@ const ToDoListe = () => {
 
   // Wenn sich etwas im State ändert: 
   useEffect(()=> {
-    console.log('Etwas an aufgaben hat sich geändert')
     // Daten in Local storage speichern
     localStorage.setItem('aufgabenLS', JSON.stringify(aufgaben))
   }, [aufgaben])
 
-  useEffect(()=> { console.log("new aufgabe hat sich geändert")}, [newAufgabe])
+  useEffect(()=> { }, [newAufgabe])
 
   const createNewTask = () => {
     setAufgaben([ ...aufgaben, { text: newAufgabe, done: false, id: Date.now(), farbe: 'schwarz' } ])
   }
 
   const aufgabeDoneToggeln = (id) => {
-    console.log('als erledigt', id);
     let geänderteKopie = aufgaben.map(aufgabe => {
       return  aufgabe.id === id ? ( {...aufgabe, done: !aufgabe.done} ) : ( aufgabe ) 
     }) 
